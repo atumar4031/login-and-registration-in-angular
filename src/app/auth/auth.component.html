@@ -2,48 +2,36 @@
     <div class="container">
         <div class="center-container">
             <div class="login-container">
-                <form class="login-form" #authForm="ngForm" (ngSubmit)="login(authForm)">
+                <form class="login-form" [formGroup]="loginForm" (ngSubmit)="login()">
                     <h2>Login</h2>
                     <div class="input-group">
-                        <label for="username">email</label>
-                        <input 
-                            required
-                            type="email"
-                            id="username" 
-                            name="username"
-                            placeholder="email"
-                            [(ngModel)]="authRequest.email"
+                        <label for="email">email</label>
+                        <input type="email" id="email" formControlName="email" placeholder="email" />
+                        <div *ngIf="loginForm.controls.email.invalid &&
+                            (loginForm.controls.email.dirty || loginForm.controls.email.touched)">
+                            <small class="error" *ngIf="loginForm.controls.email.hasError('required')">Email is
+                                required</small>
+                            <small class="error" *ngIf="loginForm.controls.email.errors?.['email']">Valid Email is
+                                required </small>
+                            <small class="error"
+                                *ngIf="!loginForm.controls.email.errors?.['email'] && loginForm.controls.email.errors?.['minlength']">Minimal
+                                of five (5) characters is required</small>
+                        </div>
+                    </div>
 
-                            pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
-                            #usernameError="ngModel"
-                         />
-                    </div>
-                    <div *ngIf="usernameError.errors?.['pattern']" class="text-danger">
-                        Valid email is required
-                    </div>
                     <div class="input-group">
                         <label for="password">Password</label>
-                        <input 
-                            required
-                            type="password" 
-                            id="password" 
-                            name="password" 
-                            placeholder="password" 
-                            [(ngModel)]="authRequest.password"
-                            #passwordError="ngModel"
-                    />
+                        <input type="password" id="password" placeholder="password" formControlName="password" />
+                        <div *ngIf="loginForm.controls.password.invalid &&
+                                (loginForm.controls.password.dirty || loginForm.controls.password.touched)">
+                                 <small class="error" *ngIf="loginForm.controls.password.hasError('required')">Password is
+                                    required</small>  
+                        </div>
                     </div>
-                    <div *ngIf="passwordError.errors?.['pattern']">
-                       Password is required
-                    </div>
-                    
-                    
-                    <button type="submit" [disabled]="authForm.invalid">Login</button>
+
+                    <button type="submit" [disabled]="loginForm.invalid">Login</button>
                 </form>
                 <p style="text-align: end;">Dont have account? <a routerLink="/register">here</a></p>
-                dirty: {{authForm.dirty}}
-                pristine: {{authForm.pristine}}
-                invalid: {{authForm.invalid}}
             </div>
         </div>
     </div>

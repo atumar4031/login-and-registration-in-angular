@@ -2,40 +2,63 @@
     <div class="container">
         <div class="center-container">
             <div class="register-container">
-                <form class="register-form" #registerForm="ngForm" (submit)="register(registerForm)">
+                <form class="register-form" [formGroup]="registerForm" (submit)="register()">
 
                     <div class="input-group">
                         <label for="firstName">firstName</label>
-                        <input required type="text" name="firstName" [(ngModel)]="registerRequest.firstname" #firstname="ngModel" minlength="3"   placeholder="firstname" />
-                        <div *ngIf="firstname.errors?.['minlength']" class="error">FirstName must be atleas three characters long.</div>
+                        <input required type="text" formControlName="firstname" placeholder="firstname" />
+                        <div *ngIf="registerForm.controls.firstname.invalid && (registerForm.controls.firstname.dirty ||
+                         registerForm.controls.firstname.touched)">
+                            <small class="error" *ngIf="registerForm.controls.firstname.hasError('required')">First name is
+                                required.</small>
+                        </div>
                     </div>
 
                     <div class="input-group">
                         <label for="lastName">lastName</label>
-                        <input required type="text" name="lastName" [(ngModel)]="registerRequest.lastname" #lastname="ngModel" minlength="3" placeholder="lastname" />
-                        <div *ngIf="firstname.errors?.['minlength']" class="error">LastName must be atleas three characters long.</div>
-                        <div>pristine {{firstname.pristine}}</div>
-                    <div>dirty {{firstname.dirty}}</div>
-                    <div>touched {{firstname.touched}}</div>
-                    
+                        <input required type="text" formControlName="lastname" placeholder="lastname" />
+                        <div *ngIf="registerForm.controls.lastname.invalid && (registerForm.controls.lastname.dirty || registerForm.controls.lastname.touched)">
+                            <small class="error" *ngIf="registerForm.controls.lastname.hasError('required')">Last name is
+                                required.</small>
+                        </div>
                     </div>
 
                     <div class="input-group">
                         <label for="email">email</label>
-                        <input required type="text" name="email" [(ngModel)]="registerRequest.email" #email="ngModel" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" placeholder="email" />
-                        <div *ngIf="email.errors?.['pattern']" class="error">Invalid email.</div>
+                        <input required type="text" formControlName="email" placeholder="email" />
+                        <div *ngIf="registerForm.controls.email.invalid && (registerForm.controls.email.dirty || registerForm.controls.email.touched)">
+                          
+                                <small class="error" *ngIf="registerForm.controls.email.hasError('required')">Email address is
+                                    required.</small>
+                                    <small class="error" *ngIf="!registerForm.controls.email.hasError('required') && registerForm.controls.email.errors?.['email']">Valid Email address is
+                                        required.</small>
+                        </div>
                     </div>
 
                     <div class="input-group">
                         <label for="email">password</label>
-                        <input required type="text" name="password" [(ngModel)]="registerRequest.password" #email="ngModel" pattern="" placeholder="password" />
+                        <input required type="text" formControlName="password" placeholder="password" />
+                        <div *ngIf="registerForm.controls.password.invalid &&
+                        (registerForm.controls.password.dirty || registerForm.controls.password.touched)">
+                            <small class="error" *ngIf="registerForm.controls.password.hasError('required')">Password is
+                                required</small>
+                        </div>
+                        <ul>
+
+                            <li [class.success]="!registerForm.controls.password.errors?.['hasUpperCaseError']">Must
+                                contail at least one upper character</li>
+                            <li [class.success]="!registerForm.controls.password.errors?.['hasLowerCaseError']">Must
+                                contail at least one lower character</li>
+                            <li [class.success]="!registerForm.controls.password.errors?.['hasSpecialCharError']">Must
+                                contail at
+                                least one special character</li>
+                            <li [class.success]="!registerForm.controls.password.errors?.['hasDigitCharError']">Must
+                                contail at least one Number character</li>
+                        </ul>
                     </div>
 
-                    <button type="sublim" class="btn btn-success" [disabled]="registerForm.dirty">register</button>
-                    <div>errors {{registerForm.errors | json}}</div>
-                    <div>pristine {{registerForm.pristine}}</div>
-                    <div>dirty {{registerForm.dirty}}</div>
-                    <div>touched {{registerForm.touched}}</div>
+                    <button type="sublim" class="btn btn-success" [disabled]="!registerForm.invalid">register</button>
+
                 </form>
                 <p style="text-align: end;">Already have account? <a routerLink="/login">here</a></p>
             </div>
