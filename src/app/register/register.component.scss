@@ -1,0 +1,20 @@
+.register-container {
+    width: 300px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.register-form {
+    display: flex;
+    flex-direction: column;
+    // background-color: red;
+    padding: 20px;
+
+}
+
+.register-form h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
