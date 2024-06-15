@@ -1,0 +1,50 @@
+<div class="wrapper">
+    <div class="container">
+        <div class="center-container">
+            <div class="login-container">
+                <form class="login-form" #authForm="ngForm" (ngSubmit)="login(authForm)">
+                    <h2>Login</h2>
+                    <div class="input-group">
+                        <label for="username">email</label>
+                        <input 
+                            required
+                            type="email"
+                            id="username" 
+                            name="username"
+                            placeholder="email"
+                            [(ngModel)]="authRequest.email"
+
+                            pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
+                            #usernameError="ngModel"
+                         />
+                    </div>
+                    <div *ngIf="usernameError.errors?.['pattern']" class="text-danger">
+                        Valid email is required
+                    </div>
+                    <div class="input-group">
+                        <label for="password">Password</label>
+                        <input 
+                            required
+                            type="password" 
+                            id="password" 
+                            name="password" 
+                            placeholder="password" 
+                            [(ngModel)]="authRequest.password"
+                            #passwordError="ngModel"
+                    />
+                    </div>
+                    <div *ngIf="passwordError.errors?.['pattern']">
+                       Password is required
+                    </div>
+                    
+                    
+                    <button type="submit" [disabled]="authForm.invalid">Login</button>
+                </form>
+                <p style="text-align: end;">Dont have account? <a routerLink="/register">here</a></p>
+                dirty: {{authForm.dirty}}
+                pristine: {{authForm.pristine}}
+                invalid: {{authForm.invalid}}
+            </div>
+        </div>
+    </div>
+</div>
